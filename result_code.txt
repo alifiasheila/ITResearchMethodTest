@@ -1,0 +1,19 @@
+survey = read.csv("survey.csv")
+library(tidyverse)
+survey=survey %>%
+  rename("height"=weight, "weight"= height)
+for (i in 1:nrow(survey)){
+  survey$height[i]=survey$height[i]/100
+}
+for (i in 1:ncol(survey)){
+  survey[is.na(survey[,i]), i] <- mean(survey[,i], na.rm = TRUE)
+}
+for (i in 1:nrow(survey)){
+    if(survey$weight[i]/survey$height[i]^2<18.4){
+      survey$BMI[i]="Underweight"}
+    else if (survey$weight[i]/survey$height[i]^2>25){
+        survey$BMI[i]="Overweight"
+      }
+    else {survey$BMI[i]="Normal"}
+}
+
